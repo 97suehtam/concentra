@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Ícone de app (apple-touch-icon e manifest): quadrado cheio, sem cantos arredondados,
+       porque iOS e Android arredondam sozinhos. O tambor fica menor para caber na máscara. -->
+  <rect width="64" height="64" fill="#c6f432"/>
+  <g transform="translate(16 16) scale(1.333)" fill="none" stroke="#1a1d14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="m2 2 8 8"/>
+    <path d="m22 2-8 8"/>
+    <ellipse cx="12" cy="9" rx="10" ry="5"/>
+    <path d="M7 13.4v7.9"/>
+    <path d="M12 14v8"/>
+    <path d="M17 13.4v7.9"/>
+    <path d="M2 9v8a10 5 0 0 0 20 0V9"/>
+  </g>
+</svg>

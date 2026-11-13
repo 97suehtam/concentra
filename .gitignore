@@ -1,0 +1,6 @@
+node_modules/
+.env
+.env.*
+relatorio-fontes.json
+noticias-coletadas.json
+wikipedia-escolas.json

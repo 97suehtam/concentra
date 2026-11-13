@@ -1,0 +1,58 @@
+<!doctype html>
+<!-- Imagem de compartilhamento (Open Graph, 1200x630). Rode: node imagens/gerar.mjs -->
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: 'Bricolage'; src: url('../node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-wght-normal.woff2') format('woff2'); font-weight: 200 800; }
+  @font-face { font-family: 'Geist'; src: url('../node_modules/@fontsource-variable/geist/files/geist-latin-wght-normal.woff2') format('woff2'); font-weight: 100 900; }
+
+  :root { --lima: #c6f432; --lavanda: #c8b5f5; --rosa: #f5a3c7; --amarelo: #f2e35c; --ceu: #9fd3f0; --tinta: #1a1d14; }
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    display: flex; gap: 48px; align-items: center; box-sizing: border-box; padding: 64px 72px;
+    background-color: #262626;
+    background-image: linear-gradient(rgb(255 255 255 / 4%) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / 4%) 1px, transparent 1px);
+    background-size: 36px 36px;
+    color: #fafafa; font-family: 'Geist', sans-serif;
+  }
+  .texto { flex: 1; display: flex; flex-direction: column; gap: 28px; }
+  .marca { display: flex; align-items: center; gap: 16px; font-family: 'Bricolage'; font-weight: 700; font-size: 38px; }
+  .marca svg { width: 64px; height: 64px; }
+  h1 { margin: 0; font-family: 'Bricolage'; font-weight: 700; font-size: 76px; line-height: 1.02; letter-spacing: -0.02em; }
+  .destaque { display: inline-block; transform: rotate(-1.5deg); background: var(--lavanda); color: var(--tinta); border-radius: 14px; padding: 0 14px; margin-top: 8px; }
+  p { margin: 0; font-size: 28px; line-height: 1.35; color: #c4c4c4; max-width: 600px; }
+  .rodape { display: flex; gap: 12px; align-items: center; font-size: 24px; font-weight: 600; }
+  .pilula { background: var(--lima); color: var(--tinta); border-radius: 999px; padding: 8px 20px; white-space: nowrap; }
+  .data { color: #a3a3a3; }
+
+  .colagem { position: relative; width: 400px; height: 480px; flex-shrink: 0; border-radius: 48px; background: var(--lima); overflow: hidden; }
+  .colagem span { position: absolute; font-size: 92px; line-height: 1; }
+  .centro { position: absolute; left: 50%; top: 50%; width: 150px; height: 150px; transform: translate(-50%, -50%); border-radius: 999px; background: var(--tinta); display: flex; align-items: center; justify-content: center; font-size: 80px; box-shadow: 0 0 0 10px rgb(26 29 20 / 18%); }
+</style>
+</head>
+<body>
+  <div class="texto">
+    <div class="marca">
+      <svg viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#c6f432"/><g transform="translate(14 14) scale(1.5)" fill="none" stroke="#1a1d14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m2 2 8 8"/><path d="m22 2-8 8"/><ellipse cx="12" cy="9" rx="10" ry="5"/><path d="M7 13.4v7.9"/><path d="M12 14v8"/><path d="M17 13.4v7.9"/><path d="M2 9v8a10 5 0 0 0 20 0V9"/></g></svg>
+      Concentra
+    </div>
+    <h1>Seu carnaval no Anhembi, <span class="destaque">do seu jeito</span></h1>
+    <p>Desfiles, sua grade, ingressos, notícias e como chegar. Tudo num lugar só.</p>
+    <div class="rodape">
+      <span class="pilula">Carnaval SP 2027</span>
+      <span class="data">30/01 a 13/02 · Anhembi</span>
+    </div>
+  </div>
+
+  <div class="colagem" aria-hidden="true">
+    <span style="left: 34px; top: 30px; transform: rotate(-12deg)">🥁</span>
+    <span style="right: 36px; top: 46px; transform: rotate(14deg)">🎉</span>
+    <span style="left: 30px; bottom: 120px; transform: rotate(8deg)">🎶</span>
+    <span style="right: 30px; bottom: 150px; transform: rotate(-10deg)">💃</span>
+    <span style="left: 120px; bottom: 26px; transform: rotate(-6deg)">🎺</span>
+    <span style="right: 40px; bottom: 26px; transform: rotate(10deg)">✨</span>
+    <div class="centro">💚</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,270 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/bricolage-grotesque";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+    --font-heading: 'Bricolage Grotesque Variable', var(--font-sans);
+    --font-sans: 'Geist Variable', sans-serif;
+    /* Curva padrão de movimento: sai rápido e chega macio (classe ease-mola) */
+    --ease-mola: cubic-bezier(.22, 1, .36, 1);
+    /* Cores da marca (além dos tokens do shadcn) */
+    --color-lima: var(--lima);
+    --color-lavanda: var(--lavanda);
+    --color-rosa: var(--rosa);
+    --color-amarelo: var(--amarelo);
+    --color-ceu: var(--ceu);
+    --color-tinta: var(--tinta);
+    --color-sidebar-ring: var(--sidebar-ring);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar: var(--sidebar);
+    --color-chart-5: var(--chart-5);
+    --color-chart-4: var(--chart-4);
+    --color-chart-3: var(--chart-3);
+    --color-chart-2: var(--chart-2);
+    --color-chart-1: var(--chart-1);
+    --color-ring: var(--ring);
+    --color-input: var(--input);
+    --color-border: var(--border);
+    --color-destructive: var(--destructive);
+    --color-accent-foreground: var(--accent-foreground);
+    --color-accent: var(--accent);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-muted: var(--muted);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-secondary: var(--secondary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-primary: var(--primary);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-popover: var(--popover);
+    --color-card-foreground: var(--card-foreground);
+    --color-card: var(--card);
+    --color-foreground: var(--foreground);
+    --color-background: var(--background);
+    --radius-sm: calc(var(--radius) * 0.6);
+    --radius-md: calc(var(--radius) * 0.8);
+    --radius-lg: var(--radius);
+    --radius-xl: calc(var(--radius) * 1.4);
+    --radius-2xl: calc(var(--radius) * 1.8);
+    --radius-3xl: calc(var(--radius) * 2.2);
+    --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* O app é só escuro (referências: fundo grafite, lima neon e lavanda).
+   :root e .dark têm os mesmos valores para os componentes que usam dark: funcionarem. */
+:root,
+.dark {
+    --lima: oklch(0.92 0.21 127);
+    --lavanda: oklch(0.83 0.1 295);
+    --rosa: oklch(0.8 0.14 350);
+    --amarelo: oklch(0.91 0.17 98);
+    --ceu: oklch(0.83 0.1 225);
+    --tinta: oklch(0.17 0.01 127); /* texto escuro sobre as cores vivas */
+
+    --background: oklch(0.155 0 0);
+    --foreground: oklch(0.98 0 0);
+    --card: oklch(0.205 0 0);
+    --card-foreground: oklch(0.98 0 0);
+    --popover: oklch(0.225 0 0);
+    --popover-foreground: oklch(0.98 0 0);
+    --primary: var(--lima);
+    --primary-foreground: var(--tinta);
+    --secondary: oklch(0.27 0 0);
+    --secondary-foreground: oklch(0.98 0 0);
+    --muted: oklch(0.25 0 0);
+    --muted-foreground: oklch(0.7 0 0);
+    --accent: var(--lavanda);
+    --accent-foreground: oklch(0.2 0.03 295);
+    --destructive: oklch(0.7 0.19 22);
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 14%);
+    --ring: oklch(0.92 0.21 127 / 60%);
+    --chart-1: var(--lima);
+    --chart-2: var(--lavanda);
+    --chart-3: var(--rosa);
+    --chart-4: var(--amarelo);
+    --chart-5: var(--ceu);
+    --radius: 1.1rem;
+    --sidebar: oklch(0.205 0 0);
+    --sidebar-foreground: oklch(0.98 0 0);
+    --sidebar-primary: var(--lima);
+    --sidebar-primary-foreground: var(--tinta);
+    --sidebar-accent: oklch(0.27 0 0);
+    --sidebar-accent-foreground: oklch(0.98 0 0);
+    --sidebar-border: oklch(1 0 0 / 10%);
+    --sidebar-ring: oklch(0.92 0.21 127 / 60%);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    color-scheme: dark;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    /* Quadriculado sutil, como nas referências */
+    background-image:
+      linear-gradient(oklch(1 0 0 / 3.5%) 1px, transparent 1px),
+      linear-gradient(90deg, oklch(1 0 0 / 3.5%) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  h1, h2, h3 {
+    @apply font-heading tracking-tight;
+  }
+}
+
+/* ---------- Mapa (Leaflet) ---------- */
+.pino-mapa {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: var(--popover);
+  box-shadow: 0 0 0 2px var(--border), 0 6px 16px -4px oklch(0 0 0 / 60%);
+  font-size: 1rem;
+}
+.pino-destaque {
+  background: var(--lima);
+  box-shadow: 0 0 0 3px var(--background), 0 0 28px -2px var(--lima);
+  font-size: 1.35rem;
+}
+.leaflet-container { background: var(--card); font-family: var(--font-sans); }
+/* Tiles claros do OSM no tom escuro do app; os marcadores ficam fora do filtro */
+.leaflet-tile-pane { filter: invert(0.92) hue-rotate(180deg) saturate(0.55) brightness(0.95); }
+.leaflet-popup-content-wrapper, .leaflet-popup-tip { background: var(--popover); color: var(--foreground); }
+.leaflet-control-attribution { background: oklch(0 0 0 / 55%) !important; color: var(--muted-foreground); font-size: 10px; }
+.leaflet-control-attribution a { color: var(--foreground); }
+.leaflet-bar a { background: var(--popover); color: var(--foreground); border-color: var(--border); }
+
+/* ---------- Transições de tela (View Transitions, ver hooks/use-rota.ts) ---------- */
+/* Só o <main> anima; topo e barra ficam parados. data-transicao no <html> escolhe o movimento. */
+main { view-transition-name: tela; }
+::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+/* O fundo (topo, menu de baixo, barra lateral) não anima: a foto antiga dele não fica por baixo.
+   Senão o navegador soma as duas (plus-lighter) e a pílula antiga aparece junto com a nova. */
+/* (opacity em vez de display:none: o Safari do iPhone pode ignorar display nesses pseudo-elementos) */
+::view-transition-old(root) { opacity: 0; }
+::view-transition-new(root) { mix-blend-mode: normal; }
+/* Menu de baixo: grupo próprio, desenhado ACIMA da tela. Sem isso, durante a troca o conteúdo da
+   página passava por cima do menu (ele sumia ou ficava transparente). O grupo não anima (a largura
+   da barra muda um pouco entre abas e esticaria a imagem); dentro dele a pílula desliza ao vivo. */
+.menu-principal { view-transition-name: menu; }
+::view-transition-group(menu) { animation: none; z-index: 10; }
+::view-transition-old(menu) { animation: none; opacity: 0; }
+::view-transition-new(menu) { animation: none; mix-blend-mode: normal; }
+::view-transition-group(*) { animation-duration: 380ms; animation-timing-function: var(--ease-mola); }
+
+/* Abrir (escola): a nova entra da direita, a antiga recua um pouco. Voltar: o contrário. */
+:root[data-transicao=frente]::view-transition-old(tela) { animation: 240ms var(--ease-mola) both tela-sai-esquerda; }
+:root[data-transicao=frente]::view-transition-new(tela) { animation: 380ms var(--ease-mola) both tela-entra-direita; }
+:root[data-transicao=volta]::view-transition-old(tela) { animation: 240ms var(--ease-mola) both tela-sai-direita; }
+:root[data-transicao=volta]::view-transition-new(tela) { animation: 380ms var(--ease-mola) both tela-entra-esquerda; }
+/* Abas da barra: a antiga some rápido e só então a nova sobe (as duas não se misturam no meio) */
+:root[data-transicao=lado]::view-transition-old(tela) { animation: 110ms ease-out both some; }
+:root[data-transicao=lado]::view-transition-new(tela) { animation: 300ms var(--ease-mola) 90ms both surge; }
+
+/* Trocar de noite: só a lista se move. A antiga some rápido (sem atravessar a tela) e só então
+   a nova entra deslizando do lado da noite escolhida: as duas nunca aparecem sobrepostas. */
+:root[data-transicao^=noite]::view-transition-old(tela), :root[data-transicao^=noite]::view-transition-new(tela) { animation: none; }
+/* A foto antiga da tela não fica por baixo: o fundo da tela é transparente, e quando a faixa de abas
+   rola até a noite escolhida (ex.: Acesso I), as abas antigas apareceriam duplicadas até o fim. */
+:root[data-transicao^=noite]::view-transition-old(tela) { opacity: 0; }
+:root[data-transicao^=noite] .lista-noite { view-transition-name: lista-noite; }
+::view-transition-group(lista-noite) { animation: none; } /* a altura muda de uma vez, sem esticar */
+:root[data-transicao^=noite]::view-transition-old(lista-noite) { animation: 110ms ease-out both some; }
+:root[data-transicao=noite-frente]::view-transition-new(lista-noite) { animation: 320ms var(--ease-mola) 90ms both lista-entra-direita; }
+:root[data-transicao=noite-volta]::view-transition-new(lista-noite) { animation: 320ms var(--ease-mola) 90ms both lista-entra-esquerda; }
+
+/* Card que vira página: o bloco da posição (".vt-ordem", nome por escola) só voa ao abrir/voltar.
+   Nas outras trocas ele fica dentro da tela, para não se mover separado. */
+:root:not([data-transicao=frente]):not([data-transicao=volta]) .vt-ordem { view-transition-name: none !important; }
+
+@keyframes tela-entra-direita { from { transform: translateX(28%); opacity: 0; } }
+@keyframes tela-sai-esquerda { to { transform: translateX(-10%); opacity: 0; } }
+@keyframes tela-entra-esquerda { from { transform: translateX(-28%); opacity: 0; } }
+@keyframes tela-sai-direita { to { transform: translateX(10%); opacity: 0; } }
+@keyframes lista-entra-direita { from { transform: translateX(32px); opacity: 0; } }
+@keyframes lista-entra-esquerda { from { transform: translateX(-32px); opacity: 0; } }
+@keyframes some { to { opacity: 0; } }
+@keyframes surge { from { opacity: 0; transform: translateY(12px); } }
+
+/* Listas em cascata: cada item com style="--i: índice". Ao voltar para uma tela, não repete. */
+.cascata > * { animation: surge 420ms var(--ease-mola) both; animation-delay: calc(min(var(--i, 0), 12) * 35ms); }
+/* Também não repete na troca de noite: a lista inteira já desliza, dois movimentos juntos confundem */
+/* Só na tela (main): a folha de escolas fica fora dela e mantém a cascata */
+:root[data-transicao=volta] main .cascata > *, :root[data-transicao^=noite] main .cascata > * { animation: none; }
+
+/* Bottom sheet (components/seletor-escola.tsx): sobe com um leve passo além do ponto e assenta,
+   como uma mola; desce rápido ao fechar. O Radix espera a animação de saída antes de desmontar. */
+/* backwards, não both: preso no fim, o transform da animação venceria o arrasto (estilo inline) */
+.folha[data-state=open] { animation: folha-sobe 560ms var(--ease-mola) backwards; }
+.folha[data-state=closed] { animation: folha-desce 240ms cubic-bezier(.4, 0, 1, 1) both; }
+@keyframes folha-sobe {
+  0% { transform: translateY(100%); }
+  65% { transform: translateY(-8px); }
+  100% { transform: translateY(0); }
+}
+@keyframes folha-desce { to { transform: translateY(100%); } }
+/* No desktop a folha vira janela centralizada (o `translate` centraliza; o `transform` anima) */
+@media (min-width: 1024px) {
+  .folha { top: 50%; bottom: auto; left: 50%; right: auto; translate: -50% -50%; max-height: 80svh; border-radius: 2rem; border: 1px solid var(--border); }
+  .folha[data-state=open] { animation: folha-aparece 320ms var(--ease-mola) backwards; }
+  .folha[data-state=closed] { animation: folha-some 160ms ease-in both; }
+}
+@keyframes folha-aparece { from { opacity: 0; transform: scale(.96) translateY(12px); } }
+@keyframes folha-some { to { opacity: 0; transform: scale(.97); } }
+
+/* Imagens e players entram com fade quando terminam de carregar (classe "suave" + onLoad) */
+.suave { opacity: 0; transition: opacity 350ms var(--ease-mola); }
+.suave.carregou { opacity: 1; }
+
+/* ---------- Microinterações ---------- */
+@keyframes pulo {
+  0% { transform: scale(1); }
+  35% { transform: scale(1.35) rotate(-8deg); }
+  70% { transform: scale(0.92) rotate(4deg); }
+  100% { transform: scale(1); }
+}
+.animar-pulo { animation: pulo 450ms cubic-bezier(.3,1.6,.5,1); }
+
+@keyframes confete {
+  0% { transform: translate(0, 0) rotate(0) scale(.6); opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)) rotate(var(--giro)) scale(1); opacity: 0; }
+}
+.confete {
+  position: fixed;
+  pointer-events: none;
+  z-index: 100;
+  font-size: 1.25rem;
+  animation: confete 900ms cubic-bezier(.15,.7,.4,1) forwards;
+}
+
+/* Easter egg: modo bateria (toque 7x no logo) */
+@keyframes batida {
+  0%, 100% { transform: scale(1); }
+  10% { transform: scale(1.015); }
+}
+@keyframes arco-iris {
+  to { filter: hue-rotate(360deg); }
+}
+.modo-bateria main { animation: batida 545ms ease-in-out infinite; } /* ~110 bpm, andamento de samba-enredo */
+.modo-bateria .marca { animation: arco-iris 2s linear infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animar-pulo, .confete, .modo-bateria main, .modo-bateria .marca, .cascata > *, .folha[data-state] { animation: none; }
+  .suave { transition: none; }
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+}

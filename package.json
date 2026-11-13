@@ -1,0 +1,15 @@
+{
+  "name": "carnaval-sp-2027",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "testar-fontes": "node scripts/testar-fontes.mjs --dry-run",
+    "testar-fontes:gravar": "node scripts/testar-fontes.mjs",
+    "coletar": "node --env-file=.env scripts/coletar-noticias.mjs --dry-run",
+    "coletar:gravar": "node --env-file=.env scripts/coletar-noticias.mjs",
+    "wikipedia": "node --env-file=.env scripts/coletar-wikipedia.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0"
+  }
+}
