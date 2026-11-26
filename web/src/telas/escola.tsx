@@ -8,11 +8,13 @@ import { Button } from '@/components/ui/button'
 import { useConsulta } from '@/hooks/use-consulta'
 import { useFavoritos } from '@/hooks/use-favoritos'
 import { desbloquear, usePerfil } from '@/hooks/use-perfil'
+import { useSegurar } from '@/hooks/use-segurar'
 import { irPara, useSlugEscola } from '@/hooks/use-rota'
 import { CORES_VIVAS, diasAte } from '@/lib/app'
 import { soltarConfete } from '@/lib/confete'
 import { buscarGalera, linksDasFotos, useMeuPerfilComunidade, type Pessoa } from '@/lib/comunidade'
 import { favoritarComFesta } from '@/lib/favoritar'
+import { ESCOLA_FIEL, alternarModoFiel } from '@/lib/modo-fiel'
 import { aoCarregar, spotifyEmbed, youtubeEmbed } from '@/lib/midia'
 import { consultarEscola, consultarNoites, formatarData, type EscolaDetalhe, type Noite } from '@/lib/supabase'
 import { cn } from '@/lib/utils'
@@ -130,6 +132,9 @@ function Acoes({ escola: e }: { escola: EscolaDetalhe }) {
     : undefined
   const favorita = favoritos.ehFavorita(e.slug)
   const doCoracao = perfil.escolaCoracao === e.slug
+  // Easter egg "Modo Fiel": na página da Gaviões, já do coração, segurar o botão 2s liga ou desliga
+  const fiel = doCoracao && e.slug === ESCOLA_FIEL
+  const segurar = useSegurar(alternarModoFiel, { ativo: fiel })
 
   function alternarGrade(botao: HTMLButtonElement) {
     if (noite) {
@@ -162,9 +167,14 @@ function Acoes({ escola: e }: { escola: EscolaDetalhe }) {
       <Button
         size="lg"
         variant="secondary"
-        className={cn('h-12 rounded-full', doCoracao && 'bg-rosa text-tinta hover:bg-rosa/90')}
+        className={cn(
+          'h-12 rounded-full', doCoracao && 'bg-rosa text-tinta hover:bg-rosa/90',
+          fiel && 'select-none [-webkit-touch-callout:none] [touch-action:none] transition-[scale] ease-linear',
+          fiel && (segurar.segurando ? 'scale-105 duration-[2000ms]' : 'duration-200'),
+        )}
         aria-pressed={doCoracao}
-        onClick={(ev) => alternarCoracao(ev.currentTarget)}
+        {...segurar.handlers}
+        onClick={(ev) => { if (!segurar.engolirClique()) alternarCoracao(ev.currentTarget) }}
       >
         <span aria-hidden="true">💖</span>
         {doCoracao ? 'Do coração' : 'É do coração?'}

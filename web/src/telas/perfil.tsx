@@ -1,5 +1,5 @@
 import { ChevronDown, Cloud, Download, LogOut, Mail, RotateCcw, Trash2 } from 'lucide-react'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { toast } from 'sonner'
 import { PerfilComunidade } from '@/components/perfil-comunidade'
 import { SeletorEscola } from '@/components/seletor-escola'
@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useConsulta } from '@/hooks/use-consulta'
+import { useSegurar } from '@/hooks/use-segurar'
 import { CONQUISTAS, TIPOS_FOLIA, desbloquear, usePerfil, type Conquista, type TipoFolia } from '@/hooks/use-perfil'
 import { irPara } from '@/hooks/use-rota'
 import { baixarMeusDados, excluirConta } from '@/lib/comunidade'
@@ -139,29 +140,13 @@ function EscolaDoCoracao() {
 // Easter egg "Modo Fiel" (lib/modo-fiel.ts): só existe para quem é Gaviões.
 // Segurar o 💖 por 2 segundos liga ou desliga; pelo teclado, Enter ou espaço.
 function CoracaoFiel() {
-  const timer = useRef<number>(undefined)
-  const [segurando, setSegurando] = useState(false)
-
-  function soltar() {
-    window.clearTimeout(timer.current)
-    setSegurando(false)
-  }
+  const { handlers, segurando } = useSegurar(alternarModoFiel)
 
   return (
     <button
       type="button"
       aria-label="Segredo da Fiel"
-      // No celular, segurar o dedo faz o navegador disparar pointercancel/pointerleave
-      // (toque longo, dedo que treme). Por isso só soltar o dedo (pointerup) interrompe,
-      // e o touch-action: none impede que o toque vire rolagem da página.
-      onPointerDown={(e) => {
-        try { e.currentTarget.setPointerCapture(e.pointerId) } catch { /* sem captura, segue igual */ }
-        window.clearTimeout(timer.current)
-        setSegurando(true)
-        timer.current = window.setTimeout(() => { setSegurando(false); alternarModoFiel() }, 2000)
-      }}
-      onPointerUp={soltar}
-      onContextMenu={(e) => e.preventDefault()}
+      {...handlers}
       onKeyDown={(e) => {
         if (e.key !== 'Enter' && e.key !== ' ') return
         e.preventDefault()
