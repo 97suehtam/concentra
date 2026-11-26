@@ -151,13 +151,16 @@ function CoracaoFiel() {
     <button
       type="button"
       aria-label="Segredo da Fiel"
-      onPointerDown={() => {
+      // No celular, segurar o dedo faz o navegador disparar pointercancel/pointerleave
+      // (toque longo, dedo que treme). Por isso só soltar o dedo (pointerup) interrompe,
+      // e o touch-action: none impede que o toque vire rolagem da página.
+      onPointerDown={(e) => {
+        try { e.currentTarget.setPointerCapture(e.pointerId) } catch { /* sem captura, segue igual */ }
+        window.clearTimeout(timer.current)
         setSegurando(true)
         timer.current = window.setTimeout(() => { setSegurando(false); alternarModoFiel() }, 2000)
       }}
       onPointerUp={soltar}
-      onPointerLeave={soltar}
-      onPointerCancel={soltar}
       onContextMenu={(e) => e.preventDefault()}
       onKeyDown={(e) => {
         if (e.key !== 'Enter' && e.key !== ' ') return
@@ -165,7 +168,7 @@ function CoracaoFiel() {
         alternarModoFiel()
       }}
       className={cn(
-        'absolute -top-4 -right-2 cursor-default text-8xl select-none [-webkit-touch-callout:none] [touch-action:manipulation] focus-visible:opacity-60 focus-visible:outline-none',
+        'absolute -top-4 -right-2 cursor-default text-8xl select-none [-webkit-touch-callout:none] [-webkit-tap-highlight-color:transparent] [touch-action:none] focus-visible:opacity-60 focus-visible:outline-none',
         'transition-[opacity,scale] ease-linear',
         segurando ? 'scale-110 opacity-70 duration-[2000ms]' : 'opacity-25 duration-200',
       )}
