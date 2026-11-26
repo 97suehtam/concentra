@@ -29,6 +29,7 @@ export const CONQUISTAS = {
   'coracao-de-sambista': { emoji: '💖', titulo: 'Coração de sambista', dica: 'Escolha sua escola do coração' },
   'nota-dez': { emoji: '🔟', titulo: 'Nota dez', dica: 'Tire 10 no quesito bateria' },
   paradinha: { emoji: '🤫', titulo: 'Paradinha perfeita', dica: 'Segure a bateria no silêncio' },
+  'fiel-ate-na-cor': { emoji: '🖤', titulo: 'Fiel até na cor', dica: 'Um segredo só para quem é Gaviões' },
 } as const
 export type Conquista = keyof typeof CONQUISTAS
 

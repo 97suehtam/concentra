@@ -103,6 +103,22 @@
     --sidebar-ring: oklch(0.92 0.21 127 / 60%);
 }
 
+/* Easter egg "Modo Fiel" (lib/modo-fiel.ts): para quem é Gaviões, o verde-limão do app vira branco.
+   Só a cor do app: as cores das escolas vêm de outro lugar e não mudam.
+   --lima registrada como cor para desbotar devagar em vez de trocar de uma vez. */
+@property --lima {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: oklch(0.92 0.21 127);
+}
+:root { transition: --lima 0.6s ease; }
+:root.modo-fiel {
+    --lima: oklch(0.98 0 0);
+    --tinta: oklch(0.17 0 0);
+    --ring: oklch(0.98 0 0 / 60%);
+    --sidebar-ring: oklch(0.98 0 0 / 60%);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -265,6 +281,6 @@ main { view-transition-name: tela; }
 
 @media (prefers-reduced-motion: reduce) {
   .animar-pulo, .confete, .modo-bateria main, .modo-bateria .marca, .cascata > *, .folha[data-state] { animation: none; }
-  .suave { transition: none; }
+  .suave, :root { transition: none; }
   ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
 }

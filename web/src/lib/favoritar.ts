@@ -24,7 +24,9 @@ export function favoritarComFesta({
   botao.classList.add('animar-pulo')
   if (!favoritou) return
 
-  soltarConfete(botao, { quantidade: 8, emojis: ['💚', '✨', '💜'] })
+  // No Modo Fiel (lib/modo-fiel.ts) o confete também perde o verde
+  const fiel = document.documentElement.classList.contains('modo-fiel')
+  soltarConfete(botao, { quantidade: 8, emojis: fiel ? ['🖤', '✨', '🤍'] : ['💚', '✨', '💜'] })
   const depois = lerFavoritas()
 
   // Easter egg: a noite inteira na grade
@@ -45,6 +47,6 @@ export function favoritarComFesta({
   }
 
   if (desbloquear('primeiro-coracao', { avisar: false })) {
-    toast('Primeira escola na sua grade 💚', { description: 'Veja tudo junto em "Minha grade".' })
+    toast(`Primeira escola na sua grade ${fiel ? '🖤' : '💚'}`, { description: 'Veja tudo junto em "Minha grade".' })
   }
 }

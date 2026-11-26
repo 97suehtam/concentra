@@ -1,5 +1,5 @@
 import { ChevronDown, Cloud, Download, LogOut, Mail, RotateCcw, Trash2 } from 'lucide-react'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { toast } from 'sonner'
 import { PerfilComunidade } from '@/components/perfil-comunidade'
 import { SeletorEscola } from '@/components/seletor-escola'
@@ -12,6 +12,7 @@ import { CONQUISTAS, TIPOS_FOLIA, desbloquear, usePerfil, type Conquista, type T
 import { irPara } from '@/hooks/use-rota'
 import { baixarMeusDados, excluirConta } from '@/lib/comunidade'
 import { soltarConfete } from '@/lib/confete'
+import { ESCOLA_FIEL, alternarModoFiel, useModoFiel } from '@/lib/modo-fiel'
 import { entrar, sair, useSessao } from '@/lib/sessao'
 import { consultarNoites, rotuloNoite, type Noite } from '@/lib/supabase'
 import { cn } from '@/lib/utils'
@@ -93,6 +94,7 @@ function EscolaDoCoracao() {
   const { perfil, atualizar } = usePerfil()
   const noites = useConsulta<Noite[]>(consultarNoites)
   const [aberto, setAberto] = useState(false)
+  const modoFiel = useModoFiel()
 
   // Em que noite e posição a escola do coração entra
   const desfile = noites.status === 'ok' && perfil.escolaCoracao
@@ -110,7 +112,9 @@ function EscolaDoCoracao() {
 
   return (
     <section aria-labelledby="titulo-coracao" className="relative flex flex-col gap-3 overflow-hidden rounded-[2rem] bg-rosa p-5 text-tinta">
-      <span className="absolute -top-4 -right-2 text-8xl opacity-25" aria-hidden="true">💖</span>
+      {perfil.escolaCoracao === ESCOLA_FIEL
+        ? <CoracaoFiel />
+        : <span className="absolute -top-4 -right-2 text-8xl opacity-25" aria-hidden="true">💖</span>}
       <h2 id="titulo-coracao" className="text-xl font-bold">Escola do coração</h2>
       <button
         type="button"
@@ -125,14 +129,54 @@ function EscolaDoCoracao() {
       <SeletorEscola aberto={aberto} aoMudarAberto={setAberto} valor={perfil.escolaCoracao} aoEscolher={escolher} />
       {desfile && (
         <p className="text-sm font-medium">
-          Desfila no {rotuloNoite(desfile.n)}, {desfile.d.ordem}ª a entrar. Ela ganha destaque no app todo. 💚
+          Desfila no {rotuloNoite(desfile.n)}, {desfile.d.ordem}ª a entrar. Ela ganha destaque no app todo. {modoFiel ? '🖤' : '💚'}
         </p>
       )}
     </section>
   )
 }
 
+// Easter egg "Modo Fiel" (lib/modo-fiel.ts): só existe para quem é Gaviões.
+// Segurar o 💖 por 2 segundos liga ou desliga; pelo teclado, Enter ou espaço.
+function CoracaoFiel() {
+  const timer = useRef<number>(undefined)
+  const [segurando, setSegurando] = useState(false)
+
+  function soltar() {
+    window.clearTimeout(timer.current)
+    setSegurando(false)
+  }
+
+  return (
+    <button
+      type="button"
+      aria-label="Segredo da Fiel"
+      onPointerDown={() => {
+        setSegurando(true)
+        timer.current = window.setTimeout(() => { setSegurando(false); alternarModoFiel() }, 2000)
+      }}
+      onPointerUp={soltar}
+      onPointerLeave={soltar}
+      onPointerCancel={soltar}
+      onContextMenu={(e) => e.preventDefault()}
+      onKeyDown={(e) => {
+        if (e.key !== 'Enter' && e.key !== ' ') return
+        e.preventDefault()
+        alternarModoFiel()
+      }}
+      className={cn(
+        'absolute -top-4 -right-2 cursor-default text-8xl select-none [-webkit-touch-callout:none] [touch-action:manipulation] focus-visible:opacity-60 focus-visible:outline-none',
+        'transition-[opacity,scale] ease-linear',
+        segurando ? 'scale-110 opacity-70 duration-[2000ms]' : 'opacity-25 duration-200',
+      )}
+    >
+      <span aria-hidden="true">💖</span>
+    </button>
+  )
+}
+
 function Conquistas({ obtidas }: { obtidas: string[] }) {
+  const modoFiel = useModoFiel()
   const todas = Object.entries(CONQUISTAS) as [Conquista, (typeof CONQUISTAS)[Conquista]][]
   const total = todas.filter(([id]) => obtidas.includes(id)).length
 
@@ -150,7 +194,7 @@ function Conquistas({ obtidas }: { obtidas: string[] }) {
               key={id}
               className={cn('flex flex-col gap-1 rounded-3xl p-3 ring-1', tem ? 'bg-card ring-lima/50' : 'bg-card/40 ring-border')}
             >
-              <span className={cn('text-2xl', !tem && 'opacity-40 grayscale')} aria-hidden="true">{tem ? c.emoji : '🔒'}</span>
+              <span className={cn('text-2xl', !tem && 'opacity-40 grayscale')} aria-hidden="true">{tem ? (modoFiel && id === 'primeiro-coracao' ? '🖤' : c.emoji) : '🔒'}</span>
               <span className={cn('text-sm font-bold', !tem && 'text-muted-foreground')}>{tem ? c.titulo : '???'}</span>
               <span className="text-xs text-muted-foreground">{c.dica}</span>
             </li>
