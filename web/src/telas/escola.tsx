@@ -288,7 +288,7 @@ function QuemTambemVai({ escola: e }: { escola: EscolaDetalhe }) {
   )
 }
 
-// Samba de 2027 (clipe e letra oficiais) e o último samba no Spotify da Liga-SP.
+// Samba de 2027 (clipe e letra oficiais) e o samba no Spotify da Liga-SP (desde 27/11/2026, o álbum de 2027).
 // A letra não fica no app (direito autoral): o botão leva à página oficial.
 function Samba({ escola: e }: { escola: EscolaDetalhe }) {
   const d = e.desfiles[0]
@@ -320,7 +320,9 @@ function Samba({ escola: e }: { escola: EscolaDetalhe }) {
       {spotify && (
         <div className="flex flex-col gap-2">
           <p className="text-sm text-muted-foreground">
-            {e.ultimo_samba_ano ? `O último samba no Spotify (${e.ultimo_samba_ano}), do álbum oficial da Liga-SP:` : 'O último samba no Spotify, do álbum oficial da Liga-SP:'}
+            {e.ultimo_samba_ano === 2027
+              ? 'Ouça no Spotify, no álbum oficial 2027 da Liga-SP:'
+              : e.ultimo_samba_ano ? `O último samba no Spotify (${e.ultimo_samba_ano}), do álbum oficial da Liga-SP:` : 'O último samba no Spotify, do álbum oficial da Liga-SP:'}
           </p>
           {/* Fundo no lugar do player enquanto ele carrega; o player entra com fade */}
           <div className="h-[152px] overflow-hidden rounded-2xl bg-muted">
